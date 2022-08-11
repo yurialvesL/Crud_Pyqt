@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>814</width>
+    <height>648</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>814</width>
+    <height>648</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>814</width>
+    <height>648</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>CRUD BY  YURI ALVES LIMA</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../img/agenda.png</normaloff>../img/agenda.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow{
+	background-color: rgb(243, 243, 243);
+}
+
+QPushButton{
+background-color:transparent;
+color:black;
+border:none;
+font-weight:bold;
+}
+
+QPushButton:hover{
+
+border-bottom: 2px solid black;
+
+}
+
+QPushButton:clicked{
+
+font-weight:normal;
+
+}
+
+QLabel{
+color:black;
+
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTableWidget" name="qtable_contacts">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>260</y>
+      <width>781</width>
+      <height>371</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QTableWidget{
+color:white;
+background-color:white;
+}</string>
+    </property>
+    <column>
+     <property name="text">
+      <string>Id</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Name</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Sex</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Job</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Email</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>CPF</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Type Phone</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Phone Number</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QLabel" name="lbl_title">
+    <property name="geometry">
+     <rect>
+      <x>126</x>
+      <y>20</y>
+      <width>511</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic UI Semibold</family>
+      <pointsize>30</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Contacts list</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_insert">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>241</x>
+      <y>225</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>91</width>
+      <height>20</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>91</width>
+      <height>20</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>Insert</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_delete">
+    <property name="geometry">
+     <rect>
+      <x>455</x>
+      <y>225</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>91</width>
+      <height>20</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>91</width>
+      <height>20</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>Delete</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txt_cpf_search">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>109</y>
+      <width>231</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit{
+border-bottom: 30px solid black;
+background-color:transparent;
+color:black;
+}</string>
+    </property>
+    <property name="inputMask">
+     <string>000.000.000-00</string>
+    </property>
+    <property name="frame">
+     <bool>true</bool>
+    </property>
+    <property name="placeholderText">
+     <string>Search contact by CPF</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_search_cpf">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>150</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Search</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_update">
+    <property name="geometry">
+     <rect>
+      <x>349</x>
+      <y>225</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>91</width>
+      <height>20</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>91</width>
+      <height>20</height>
+     </size>
+    </property>
+    <property name="text">
+     <string>Update</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>80</y>
+      <width>171</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic UI</family>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Write your CPF to search:</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="rbd_darkmode">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>27</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Yu Gothic UI Semibold</family>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QRadioButton{
+background-color: rgb(167, 167, 167);
+border-radius:5px;
+}
+
+QRadioButton:indicator{
+border-radius:5px;
+
+}
+
+QRadioButton:indicator:unchecked{
+background-color: rgb(255, 255, 255);
+
+
+}
+
+QRadioButton:indicator:checked{
+background-color:black;
+
+}
+
+QRadioButton:hover:indicator:checked{
+background-color:background-color: rgb(255, 255, 255);
+
+}
+</string>
+    </property>
+    <property name="text">
+     <string>Dark Mode off</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>21</width>
+      <height>16</height>
+     </size>
+    </property>
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+    <property name="autoRepeat">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
