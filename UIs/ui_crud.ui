@@ -70,7 +70,7 @@ color:black;
     </property>
     <property name="styleSheet">
      <string notr="true">QTableWidget{
-color:white;
+color:black;
 background-color:white;
 }</string>
     </property>

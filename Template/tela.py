@@ -52,7 +52,7 @@ class Ui_MainWindow(object):
         self.qtable_contacts = QtWidgets.QTableWidget(self.centralwidget)
         self.qtable_contacts.setGeometry(QtCore.QRect(20, 260, 781, 371))
         self.qtable_contacts.setStyleSheet("QTableWidget{\n"
-"color:white;\n"
+"color:black;\n"
 "background-color:white;\n"
 "}")
         self.qtable_contacts.setObjectName("qtable_contacts")
