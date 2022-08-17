@@ -44,7 +44,7 @@
      <string>Name</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="txt_name">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -67,7 +67,7 @@
      <string>Your sex?</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton">
+   <widget class="QRadioButton" name="rbd_men">
     <property name="geometry">
      <rect>
       <x>180</x>
@@ -80,7 +80,7 @@
      <string>Men</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_2">
+   <widget class="QRadioButton" name="rbd_woman">
     <property name="geometry">
      <rect>
       <x>240</x>
@@ -124,7 +124,7 @@
       <string>Your Job</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_2">
+    <widget class="QLineEdit" name="txt_job">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -150,7 +150,7 @@
       <string>Email</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_3">
+    <widget class="QLineEdit" name="txt_email">
      <property name="geometry">
       <rect>
        <x>150</x>
@@ -239,7 +239,7 @@ background-color:background-color: rgb(255, 255, 255);
       <string>CPF</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_4">
+    <widget class="QLineEdit" name="txt_cpf">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -294,7 +294,7 @@ background-color:background-color: rgb(255, 255, 255);
       <string>Phone Number</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_5">
+    <widget class="QLineEdit" name="txt_phonenumber">
      <property name="geometry">
       <rect>
        <x>150</x>
@@ -325,7 +325,7 @@ background-color:background-color: rgb(255, 255, 255);
       <string>Registration</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="btn_register">
      <property name="geometry">
       <rect>
        <x>480</x>
@@ -341,13 +341,39 @@ background-color:background-color: rgb(255, 255, 255);
       <string>Register</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>210</y>
+       <width>21</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ID:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lbl_id">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>212</y>
+       <width>47</width>
+       <height>13</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <zorder>frame</zorder>
    <zorder>label</zorder>
-   <zorder>lineEdit</zorder>
+   <zorder>txt_name</zorder>
    <zorder>label_2</zorder>
-   <zorder>radioButton</zorder>
-   <zorder>radioButton_2</zorder>
+   <zorder>rbd_men</zorder>
+   <zorder>rbd_woman</zorder>
   </widget>
  </widget>
  <resources/>
