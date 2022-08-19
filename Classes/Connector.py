@@ -85,7 +85,7 @@ def update_person(Person):
                            "(ID_CLIENTE = %s); "
             values = (Person.name,Person.sex,Person.job,Person.email,Person.cpf,Person.id)
             update_telquery = "UPDATE TELEFONE SET TIPO = %s, Numero = %s WHERE (IDCLIENTE = %s); "
-            phone_values = (Person.typephone, Person.phone_number, cursor.lastrowid)
+            phone_values = (Person.typephone, Person.phone_number, Person.id)
             cursor.execute(update_cliquery,values)
             cursor.execute(update_telquery,phone_values)
             mydb.commit()
