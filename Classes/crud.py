@@ -57,16 +57,50 @@ class Crud(QMainWindow, Ui_MainWindow):
         phone_number = self.qtable_contacts.item(rows[0], 7).text()
         persona = Person(id, name, sex, job, email, cpf, type_phone, phone_number)
         print(persona.name)
-        self.up = Update()
-        self.hide()
-        self.up.show()
-        self.up.filldata(persona)
+        if self.rbd_darkmode.isChecked():
+            self.up = Update()
+            self.hide()
+            self.up.show()
+            self.up.rbd_darkmode.setChecked(True)
+            self.up.dark_mode()
+            self.up.filldata(persona)
+        else:
+            self.up = Update()
+            self.hide()
+            self.up.show()
+            self.up.filldata(persona)
 
     def delete(self):
         rows = sorted(set(index.row() for index in
                           self.qtable_contacts.selectedIndexes()))
         id = self.qtable_contacts.item(rows[0], 0).text()
-        if self.btn_delete.clicked:
+        if self.btn_delete.clicked and self.rbd_darkmode.isChecked():
+            message = QMessageBox()
+            message.setWindowIcon(QIcon('img/cross.png'))
+            message.setWindowTitle('Delete user')
+            message.setIcon(QMessageBox.Critical)
+            message.setStyleSheet('QPushButton{width:50px;background-color:transparent; color:white; border:1px solid '
+                                  'white;}QLabel{color:white;}QMessageBox{background-color:black;}QPushButton:hover{'
+                                  'font-weight:bold;}')
+            message.setText(f'Tem Certeza que deseja excluir o usuário de ID:{id}?')
+            message.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+            returnvalue = message.exec()
+            if returnvalue == QMessageBox.Yes:
+                delete_person(id)
+                message = QMessageBox()
+                message.setWindowIcon(QIcon('img/cross.png'))
+                message.setWindowTitle('User information')
+                message.setStyleSheet(
+                    'QPushButton{width:50px;background-color:transparent; color:white; border:1px solid '
+                    'white;}QLabel{color:white;}QMessageBox{background-color:black;}QPushButton:hover{'
+                    'font-weight:bold;}')
+                message.setIcon(QMessageBox.Information)
+                message.setText(f'User deleted with success')
+                message.setStandardButtons(QMessageBox.Ok)
+                message.exec()
+                self.table_person()
+
+        elif self.btn_delete.clicked and not self.rbd_darkmode.isChecked():
             message = QMessageBox()
             message.setWindowIcon(QIcon('img/cross.png'))
             message.setWindowTitle('Exclusão de contato')
@@ -167,19 +201,38 @@ class Registration(QMainWindow, Ui_Registration):
             Person.typephone = "COM"
         Person.phone_number = self.txt_phonenumber.text()
         insert_person(Person)
-        message = QMessageBox()
-        message.setWindowIcon(QIcon('img/agenda.png'))
-        message.setIcon(QMessageBox.Information)
-        message.setMinimumSize(600, 1000)
-        message.setText('User insert in Database with success!')
-        message.setStandardButtons(QMessageBox.Ok)
-        message.exec()
+        if self.rbd_darkmode.isChecked() and self.btn_register.clicked:
+            message = QMessageBox()
+            message.setWindowIcon(QIcon('img/agenda.png'))
+            message.setIcon(QMessageBox.Information)
+            message.setMinimumSize(600, 1000)
+            message.setStyleSheet(
+                    'QPushButton{width:50px;background-color:transparent; color:white; border:1px solid '
+                    'white;}QLabel{color:white;}QMessageBox{background-color:black;}QPushButton:hover{'
+                    'font-weight:bold;}')
+            message.setText('User insert in Database with success!')
+            message.setStandardButtons(QMessageBox.Ok)
+            message.exec()
+        elif self.btn_register.clicked:
+            message = QMessageBox()
+            message.setWindowIcon(QIcon('img/agenda.png'))
+            message.setIcon(QMessageBox.Information)
+            message.setMinimumSize(600, 1000)
+            message.setText('User insert in Database with success!')
+            message.setStandardButtons(QMessageBox.Ok)
+            message.exec()
+
         if self.rbd_darkmode.isChecked():
             self.principal = Crud()
             self.hide()
             self.principal.show()
             self.principal.rbd_darkmode.setChecked(True)
             self.principal.dark_mode()
+        else:
+            self.principal = Crud()
+            self.hide()
+            self.principal.show()
+
 
     def dark_mode(self):
         if self.rbd_darkmode.isChecked():
@@ -279,6 +332,64 @@ class Update(QMainWindow, Ui_Registration):
         elif Person.sex == "F":
             self.rbd_woman.setChecked(True)
 
+    def dark_mode(self):
+        if self.rbd_darkmode.isChecked():
+            self.setStyleSheet('background-color:black;')
+            self.rbd_darkmode.setText('dark mode on')
+            self.btn_register.setStyleSheet('QPushButton{border:1px solid white; color:white;}'
+                                            'QPushButton:hover{font-weight:bold;color:white;}')
+            self.btn_back.setStyleSheet('QPushButton{border:1px solid white; color:white;}'
+                                        'QPushButton:hover{font-weight:bold; }')
+            self.frame.setStyleSheet('background-color:#646464; border-radius:30px;')
+            self.txt_name.setStyleSheet('QLineEdit{border:none; border-bottom:1px solid white;color:white; '
+                                        'background-color:transparent;}')
+            self.txt_cpf.setStyleSheet('QLineEdit{border-bottom:1px solid white;color:white; '
+                                       'background-color:transparent;}')
+            self.txt_job.setStyleSheet('QLineEdit{border-bottom:1px solid white;color:white; '
+                                       'background-color:transparent;}')
+            self.txt_email.setStyleSheet('QLineEdit{border-bottom:1px solid white;color:white; '
+                                         'background-color:transparent;}')
+            self.txt_phonenumber.setStyleSheet('QLineEdit{border-bottom:1px solid white;color:white; '
+                                               'background-color:transparent;}')
+            self.lbl_id.hide()
+            self.label.setStyleSheet('QLabel{color:white;}')
+            self.label_2.setStyleSheet('QLabel{color:white; }')
+            self.label_3.setStyleSheet('QLabel{color:white;}')
+            self.label_4.setStyleSheet('QLabel{color:white;}')
+            self.label_5.setStyleSheet('QLabel{color:white;}')
+            self.label_6.setStyleSheet('QLabel{color:white;}')
+            self.label_7.setStyleSheet('QLabel{color:white;}')
+            self.label_8.setStyleSheet('QLabel{color:white; font-weight:bold;}')
+            self.label_9.hide()
+            self.rbd_men.setStyleSheet('color:white;')
+            self.rbd_woman.setStyleSheet('color:white;')
+            self.comboBox.setStyleSheet('border:1px solid white; color:white;')
+
+        elif not self.rbd_darkmode.isChecked():
+            self.rbd_darkmode.setText('dark mode off')
+            self.btn_register.setStyleSheet('QPushButton{border:1px solid black;, color:black;}'
+                                            'QPushButton:hover{font-weight:bold;}')
+            self.btn_back.setStyleSheet('QPushButton{border:1px solid black;, color:black;}'
+                                        'QPushButton:hover{font-weight:bold;}')
+            self.frame.setStyleSheet('background-color:white; border-radius:30px;')
+            self.txt_name.setStyleSheet('QLineEdit{border:none;border-bottom:1px solid black; color:black;}')
+            self.txt_cpf.setStyleSheet('QLineEdit{border-bottom:1px solid black;color:black}')
+            self.txt_job.setStyleSheet('QLineEdit{border-bottom:1px solid black;color:black}')
+            self.txt_email.setStyleSheet('QLineEdit{border-bottom:1px solid black;color:black}')
+            self.txt_phonenumber.setStyleSheet('QLineEdit{border-bottom:1px solid black;color:black}')
+            self.lbl_id.hide()
+            self.label_2.setStyleSheet('QLabel{color:black;}')
+            self.label_3.setStyleSheet('QLabel{color:black;}')
+            self.label_4.setStyleSheet('QLabel{color:black;}')
+            self.label_5.setStyleSheet('QLabel{color:black;}')
+            self.label_6.setStyleSheet('QLabel{color:black;}')
+            self.label_7.setStyleSheet('QLabel{color:black;}')
+            self.label_8.setStyleSheet('QLabel{color:black; font-weight:bold;}')
+            self.label_9.setStyleSheet('QLabel{color:black;}')
+            self.rbd_men.setStyleSheet('color:black;')
+            self.rbd_woman.setStyleSheet('color:black;')
+            self.comboBox.setStyleSheet('border:1px solid white; color:black;')
+
     def update_contact(self):
 
         Person.id = self.lbl_id.text()
@@ -300,13 +411,34 @@ class Update(QMainWindow, Ui_Registration):
             Person.sex = "F"
         print(Person.typephone)
         update_person(Person)
-        message = QMessageBox()
-        message.setWindowIcon(QIcon('img/agenda.png'))
-        message.setIcon(QMessageBox.Information)
-        message.setMinimumSize(600, 1000)
-        message.setText('Update User Success!')
-        message.setStandardButtons(QMessageBox.Ok)
-        message.exec()
-        self.principal = Crud()
-        self.hide()
-        self.principal.show()
+        if self.rbd_darkmode.isChecked() and self.btn_register.clicked:
+            message = QMessageBox()
+            message.setWindowIcon(QIcon('img/agenda.png'))
+            message.setIcon(QMessageBox.Information)
+            message.setMinimumSize(600, 1000)
+            message.setStyleSheet(
+                'QPushButton{width:50px;background-color:transparent; color:white; border:1px solid '
+                'white;}QLabel{color:white;}QMessageBox{background-color:black;}QPushButton:hover{'
+                'font-weight:bold;}')
+            message.setText('Update User Success!')
+            message.setStandardButtons(QMessageBox.Ok)
+            message.exec()
+        elif self.btn_register.clicked and not self.rbd_darkmode.isChecked():
+            message = QMessageBox()
+            message.setWindowIcon(QIcon('img/agenda.png'))
+            message.setIcon(QMessageBox.Information)
+            message.setMinimumSize(600, 1000)
+            message.setText('Update User Success!')
+            message.setStandardButtons(QMessageBox.Ok)
+            message.exec()
+
+        if self.rbd_darkmode.isChecked():
+            self.principal = Crud()
+            self.hide()
+            self.principal.rbd_darkmode.setChecked(True)
+            self.principal.dark_mode()
+            self.principal.show()
+        else:
+            self.principal = Crud()
+            self.hide()
+            self.principal.show()
