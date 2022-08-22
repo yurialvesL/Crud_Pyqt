@@ -16,6 +16,65 @@ class Crud(QMainWindow, Ui_MainWindow):
         self.btn_update.clicked.connect(self.updata)
         self.btn_delete.clicked.connect(self.delete)
         self.rbd_darkmode.clicked.connect(self.dark_mode)
+        self.btn_search_cpf.clicked.connect(self.filter_person)
+
+    def filter_person(self):
+        if self.txt_cpf_search.text() == "..-" and self.rbd_darkmode.isChecked():
+            message = QMessageBox()
+            message.setWindowIcon(QIcon('img/agenda.png'))
+            message.setWindowTitle('User information')
+            message.setStyleSheet(
+                'QPushButton{width:50px;background-color:transparent; color:white; border:1px solid '
+                'white;}QLabel{color:white;}QMessageBox{background-color:black;}QPushButton:hover{'
+                'font-weight:bold;}')
+            message.setIcon(QMessageBox.Information)
+            message.setText(f'Cpf to search not informed!')
+            message.setStandardButtons(QMessageBox.Ok)
+            message.exec()
+            self.table_person()
+        elif self.txt_cpf_search.text() == "..-" and not self.rbd_darkmode.isChecked():
+            message = QMessageBox()
+            message.setWindowIcon(QIcon('img/agenda.png'))
+            message.setWindowTitle('User information')
+            message.setIcon(QMessageBox.Information)
+            message.setText(f'Cpf to search not informed!')
+            message.setStandardButtons(QMessageBox.Ok)
+            message.exec()
+            self.table_person()
+        elif self.txt_cpf_search.text() != "..-" and self.rbd_darkmode.isChecked():
+            self.list = search_cpf(self.txt_cpf_search.text())
+            self.qtable_contacts.setRowCount(len(self.list))
+            row = 0
+            for i in self.list:
+                self.qtable_contacts.setItem(row, 0, QtWidgets.QTableWidgetItem(str(i.id)))
+                self.qtable_contacts.setItem(row, 1, QtWidgets.QTableWidgetItem(i.name))
+                self.qtable_contacts.setItem(row, 2, QtWidgets.QTableWidgetItem(i.sex))
+                self.qtable_contacts.setItem(row, 3, QtWidgets.QTableWidgetItem(i.job))
+                self.qtable_contacts.setItem(row, 4, QtWidgets.QTableWidgetItem(i.email))
+                self.qtable_contacts.setItem(row, 5, QtWidgets.QTableWidgetItem(i.cpf))
+                self.qtable_contacts.setItem(row, 6, QtWidgets.QTableWidgetItem(i.typephone))
+                self.qtable_contacts.setItem(row, 7, QtWidgets.QTableWidgetItem(i.phone_number))
+                row += 1
+        elif self.txt_cpf_search.text() != "..-" and not self.rbd_darkmode.isChecked():
+            cpf_search = self.txt_cpf_search.text()
+            self.list = search_cpf(cpf_search)
+            self.qtable_contacts.setRowCount(len(self.list))
+            row = 0
+            for i in self.list:
+                self.qtable_contacts.setItem(row, 0, QtWidgets.QTableWidgetItem(str(i.id)))
+                self.qtable_contacts.setItem(row, 1, QtWidgets.QTableWidgetItem(i.name))
+                self.qtable_contacts.setItem(row, 2, QtWidgets.QTableWidgetItem(i.sex))
+                self.qtable_contacts.setItem(row, 3, QtWidgets.QTableWidgetItem(i.job))
+                self.qtable_contacts.setItem(row, 4, QtWidgets.QTableWidgetItem(i.email))
+                self.qtable_contacts.setItem(row, 5, QtWidgets.QTableWidgetItem(i.cpf))
+                self.qtable_contacts.setItem(row, 6, QtWidgets.QTableWidgetItem(i.typephone))
+                self.qtable_contacts.setItem(row, 7, QtWidgets.QTableWidgetItem(i.phone_number))
+                row += 1
+
+
+
+
+
 
     def table_person(self):
         self.list = personcollection()
@@ -76,7 +135,7 @@ class Crud(QMainWindow, Ui_MainWindow):
         id = self.qtable_contacts.item(rows[0], 0).text()
         if self.btn_delete.clicked and self.rbd_darkmode.isChecked():
             message = QMessageBox()
-            message.setWindowIcon(QIcon('img/cross.png'))
+            message.setWindowIcon(QIcon('img/agenda.png'))
             message.setWindowTitle('Delete user')
             message.setIcon(QMessageBox.Critical)
             message.setStyleSheet('QPushButton{width:50px;background-color:transparent; color:white; border:1px solid '
@@ -88,7 +147,7 @@ class Crud(QMainWindow, Ui_MainWindow):
             if returnvalue == QMessageBox.Yes:
                 delete_person(id)
                 message = QMessageBox()
-                message.setWindowIcon(QIcon('img/cross.png'))
+                message.setWindowIcon(QIcon('img/agenda.png'))
                 message.setWindowTitle('User information')
                 message.setStyleSheet(
                     'QPushButton{width:50px;background-color:transparent; color:white; border:1px solid '
@@ -102,7 +161,7 @@ class Crud(QMainWindow, Ui_MainWindow):
 
         elif self.btn_delete.clicked and not self.rbd_darkmode.isChecked():
             message = QMessageBox()
-            message.setWindowIcon(QIcon('img/cross.png'))
+            message.setWindowIcon(QIcon('img/agenda.png'))
             message.setWindowTitle('Exclusão de contato')
             message.setIcon(QMessageBox.Critical)
             message.setText(f'Tem certeza que deseja excluir o usuário de ID:{id} ?')
@@ -111,7 +170,7 @@ class Crud(QMainWindow, Ui_MainWindow):
             if returnvalue == QMessageBox.Yes:
                 delete_person(id)
                 message = QMessageBox()
-                message.setWindowIcon(QIcon('img/cross.png'))
+                message.setWindowIcon(QIcon('img/agenda.png'))
                 message.setWindowTitle('User information')
                 message.setIcon(QMessageBox.Information)
                 message.setText(f'User deleted with success')
@@ -174,6 +233,7 @@ class Registration(QMainWindow, Ui_Registration):
     def __init__(self, parent=None):
         super().__init__(parent)
         super().setupUi(self)
+        self.label_9.hide()
         self.typephones()
         self.btn_register.clicked.connect(self.insert)
         self.rbd_darkmode.clicked.connect(self.dark_mode)
@@ -200,35 +260,67 @@ class Registration(QMainWindow, Ui_Registration):
         elif option == "COM":
             Person.typephone = "COM"
         Person.phone_number = self.txt_phonenumber.text()
-        insert_person(Person)
+
         if self.rbd_darkmode.isChecked() and self.btn_register.clicked:
-            message = QMessageBox()
-            message.setWindowIcon(QIcon('img/agenda.png'))
-            message.setIcon(QMessageBox.Information)
-            message.setMinimumSize(600, 1000)
-            message.setStyleSheet(
+            valid = check_cpf(Person.cpf)
+            if valid:
+                insert_person(Person)
+                message = QMessageBox()
+                message.setWindowTitle('Insert user information')
+                message.setWindowIcon(QIcon('img/agenda.png'))
+                message.setIcon(QMessageBox.Information)
+                message.setMinimumSize(600, 1000)
+                message.setStyleSheet(
+                        'QPushButton{width:50px;background-color:transparent; color:white; border:1px solid '
+                        'white;}QLabel{color:white;}QMessageBox{background-color:black;}QPushButton:hover{'
+                        'font-weight:bold;}')
+                message.setText('User insert in Database with success!')
+                message.setStandardButtons(QMessageBox.Ok)
+                message.exec()
+            elif not valid:
+                message = QMessageBox()
+                message.setWindowIcon(QIcon('img/agenda.png'))
+                message.setWindowTitle('Insert user information')
+                message.setIcon(QMessageBox.Information)
+                message.setMinimumSize(600, 1000)
+                message.setStyleSheet(
                     'QPushButton{width:50px;background-color:transparent; color:white; border:1px solid '
                     'white;}QLabel{color:white;}QMessageBox{background-color:black;}QPushButton:hover{'
                     'font-weight:bold;}')
-            message.setText('User insert in Database with success!')
-            message.setStandardButtons(QMessageBox.Ok)
-            message.exec()
-        elif self.btn_register.clicked:
-            message = QMessageBox()
-            message.setWindowIcon(QIcon('img/agenda.png'))
-            message.setIcon(QMessageBox.Information)
-            message.setMinimumSize(600, 1000)
-            message.setText('User insert in Database with success!')
-            message.setStandardButtons(QMessageBox.Ok)
-            message.exec()
+                message.setText('The Cpf informed is not valid!')
+                message.setStandardButtons(QMessageBox.Ok)
+                message.exec()
 
-        if self.rbd_darkmode.isChecked():
+        elif self.btn_register.clicked:
+            valid = check_cpf(Person.cpf)
+            if valid:
+                insert_person(Person)
+                message = QMessageBox()
+                message.setWindowIcon(QIcon('img/agenda.png'))
+                message.setWindowTitle('Insert user information')
+                message.setIcon(QMessageBox.Information)
+                message.setMinimumSize(600, 1000)
+                message.setText('User insert in Database with success!')
+                message.setStandardButtons(QMessageBox.Ok)
+                message.exec()
+            elif valid is False:
+                message = QMessageBox()
+                message.setWindowTitle('Insert user information')
+                message.setWindowIcon(QIcon('img/agenda.png'))
+                message.setIcon(QMessageBox.Critical)
+                message.setMinimumSize(600, 1000)
+                message.setText('The Cpf informed is not valid!')
+                message.setStandardButtons(QMessageBox.Ok)
+                message.exec()
+
+        valid = check_cpf(Person.cpf)
+        if self.rbd_darkmode.isChecked() and valid:
             self.principal = Crud()
             self.hide()
             self.principal.show()
             self.principal.rbd_darkmode.setChecked(True)
             self.principal.dark_mode()
-        else:
+        elif not self.rbd_darkmode.isChecked() and valid:
             self.principal = Crud()
             self.hide()
             self.principal.show()
@@ -410,35 +502,67 @@ class Update(QMainWindow, Ui_Registration):
         elif self.rbd_woman.isChecked():
             Person.sex = "F"
         print(Person.typephone)
-        update_person(Person)
-        if self.rbd_darkmode.isChecked() and self.btn_register.clicked:
-            message = QMessageBox()
-            message.setWindowIcon(QIcon('img/agenda.png'))
-            message.setIcon(QMessageBox.Information)
-            message.setMinimumSize(600, 1000)
-            message.setStyleSheet(
-                'QPushButton{width:50px;background-color:transparent; color:white; border:1px solid '
-                'white;}QLabel{color:white;}QMessageBox{background-color:black;}QPushButton:hover{'
-                'font-weight:bold;}')
-            message.setText('Update User Success!')
-            message.setStandardButtons(QMessageBox.Ok)
-            message.exec()
-        elif self.btn_register.clicked and not self.rbd_darkmode.isChecked():
-            message = QMessageBox()
-            message.setWindowIcon(QIcon('img/agenda.png'))
-            message.setIcon(QMessageBox.Information)
-            message.setMinimumSize(600, 1000)
-            message.setText('Update User Success!')
-            message.setStandardButtons(QMessageBox.Ok)
-            message.exec()
 
-        if self.rbd_darkmode.isChecked():
+        if self.rbd_darkmode.isChecked() and self.btn_register.clicked:
+            valid =check_cpf(Person.cpf)
+            if valid:
+                update_person(Person)
+                message = QMessageBox()
+                message.setWindowTitle('Update user information')
+                message.setWindowIcon(QIcon('img/agenda.png'))
+                message.setIcon(QMessageBox.Information)
+                message.setMinimumSize(600, 1000)
+                message.setStyleSheet(
+                    'QPushButton{width:50px;background-color:transparent; color:white; border:1px solid '
+                    'white;}QLabel{color:white;}QMessageBox{background-color:black;}QPushButton:hover{'
+                    'font-weight:bold;}')
+                message.setText('Update User with success!')
+                message.setStandardButtons(QMessageBox.Ok)
+                message.exec()
+            elif not valid:
+                message = QMessageBox()
+                message.setWindowTitle('Update user information')
+                message.setWindowIcon(QIcon('img/agenda.png'))
+                message.setIcon(QMessageBox.Critical)
+                message.setMinimumSize(600, 1000)
+                message.setStyleSheet(
+                    'QPushButton{width:50px;background-color:transparent; color:white; border:1px solid '
+                    'white;}QLabel{color:white;}QMessageBox{background-color:black;}QPushButton:hover{'
+                    'font-weight:bold;}')
+                message.setText('User update fail,because your CPF is not valid!')
+                message.setStandardButtons(QMessageBox.Ok)
+                message.exec()
+
+        elif self.btn_register.clicked and not self.rbd_darkmode.isChecked():
+            valid = check_cpf(Person.cpf)
+            if valid:
+                update_person(Person)
+                message = QMessageBox()
+                message.setWindowIcon(QIcon('img/agenda.png'))
+                message.setWindowIconText('User update information')
+                message.setIcon(QMessageBox.Information)
+                message.setMinimumSize(600, 1000)
+                message.setText('Update User Success!')
+                message.setStandardButtons(QMessageBox.Ok)
+                message.exec()
+            elif not valid:
+                message = QMessageBox()
+                message.setWindowIcon(QIcon('img/agenda.png'))
+                message.setWindowIconText('User update information')
+                message.setIcon(QMessageBox.Information)
+                message.setMinimumSize(600, 1000)
+                message.setText('User update fail,because your CPF is not valid!')
+                message.setStandardButtons(QMessageBox.Ok)
+                message.exec()
+
+        valid= check_cpf(Person.cpf)
+        if self.rbd_darkmode.isChecked() and valid:
             self.principal = Crud()
             self.hide()
             self.principal.rbd_darkmode.setChecked(True)
             self.principal.dark_mode()
             self.principal.show()
-        else:
+        elif not self.rbd_darkmode.isChecked() and valid:
             self.principal = Crud()
             self.hide()
             self.principal.show()
